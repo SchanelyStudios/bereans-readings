@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import fdb from '../services/firebase';
+import firebase from '../services/firebase';
 import './HomePage.css';
 
 class HomePage extends Component {
@@ -12,7 +12,7 @@ class HomePage extends Component {
 
   componentDidMount() {
     console.log('component did mount');
-    const root = fdb.ref();
+    const root = firebase.database().ref();
     console.log(root);
     const articleCountRef = root.child('articleCount');
     console.log(articleCountRef);

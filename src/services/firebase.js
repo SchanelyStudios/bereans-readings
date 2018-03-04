@@ -10,6 +10,4 @@ const config = {
 };
 firebase.initializeApp(config);
 
-const fdb = firebase.database();
-
-export default fdb;
+export default firebase;
