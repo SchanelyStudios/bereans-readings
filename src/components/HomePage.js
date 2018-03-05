@@ -1,34 +1,40 @@
 import React, { Component } from 'react';
 import firebase from '../services/firebase';
+import NewsService from '../services/news';
 import './HomePage.css';
 
+import ArticleTable from './article/ArticleTable';
+
 class HomePage extends Component {
-  constructor() {
-    super();
-    this.state = {
-      articleCount: 0
-    };
-  }
+
+  db = firebase.database().ref();
+  news = new NewsService();
+
+  state = {
+    articleCount: 0,
+    articles: []
+  };
 
   componentDidMount() {
-    console.log('component did mount');
-    const root = firebase.database().ref();
-    console.log(root);
-    const articleCountRef = root.child('articleCount');
-    console.log(articleCountRef);
-    articleCountRef.on('value', snap => {
-      console.log('value change', snap.val());
+
+    this.news.getTopNews().then(articles => {
       this.setState({
-        articleCount: snap.val()
+        articles: articles
       });
     });
+
   }
+
+  onIncludeClick(data) {
+    console.log(data);
+  }
+
 
   render() {
     return (
       <div className="HomePage">
-        <h2>Welcome home.</h2>
         <p>Articles: {this.state.articleCount}</p>
+        <ArticleTable articles={this.state.articles} onIncludeClick={this.onIncludeClick} />
       </div>
     );
   }

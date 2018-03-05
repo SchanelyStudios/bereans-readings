@@ -4,7 +4,9 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "datejs": "^1.0.0-rc3",
     "firebase": "^4.10.1",
+    "newsapi": "^2.2.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-firebaseui": "^1.1.8",
