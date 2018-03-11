@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../../logo.svg';
 import './Header.css';
 
@@ -7,6 +8,12 @@ const Header = () => {
       <header className="Header">
         <img src={logo} className="Header-logo" alt="logo" />
         <h1 className="Header-title">Berans Recommended Readings</h1>
+        <nav>
+          <ul>
+            <li><Link to={'/'}>Latest Headlines</Link></li>
+            <li><Link to={'/recommended'}>Recommended Readings</Link></li>
+          </ul>
+        </nav>
       </header>
     );
 }

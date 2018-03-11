@@ -1,6 +1,5 @@
 .Header {
   background-color: #222;
-  height: 150px;
   padding: 20px;
   color: white;
 }
@@ -13,6 +12,16 @@
 
 .Header-title {
   font-size: 1.5em;
+}
+
+.Header nav ul {
+  display: flex;
+  margin-left: 0;
+}
+
+.Header li {
+  margin-right: 20px;
+  list-style: none;
 }
 
 @keyframes Header-logo-spin {
