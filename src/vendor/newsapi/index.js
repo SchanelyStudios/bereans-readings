@@ -1,11 +1,10 @@
-'use strict';
 /**
  * This module provides access to the News API
  * https://newsapi.org/
  *
  * The API provides access to recent news headlines
  * from many popular news sources.
- * 
+ *
  * The author of this code has no formal relationship with NewsAPI.org and does not
  * claim to have created any of the facilities provided by NewsAPI.org.
  */
@@ -93,7 +92,7 @@ function splitArgsIntoOptionsAndCallback (args) {
 /**
  * Creates a url string from an endpoint and an options object by appending the endpoint
  * to the global "host" const and appending the options as querystring parameters.
- * @param {String} endpoint 
+ * @param {String} endpoint
  * @param {Object} [options]
  * @return {String}
  */

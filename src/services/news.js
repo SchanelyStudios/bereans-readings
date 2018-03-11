@@ -1,4 +1,4 @@
-import NewsAPI from 'newsapi';
+import NewsAPI from '../vendor/newsapi/index';
 
 const key = '02648d661f7f44dfba038f182e973f62';
 const newsApi = new NewsAPI(key);
