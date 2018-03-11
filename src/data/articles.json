@@ -1,18 +1,16 @@
 {
-  "articles" : [
-    {
-      "id": 1,
+  "articles": {
+    "ecb923c0-22c8-11e8-985c-f77e5cea8edd": {
       "title": "How to Train Your Dragon",
       "author": "Phil Schanely",
       "source": "Unpublished",
       "date": "today"
     },
-    {
-      "id": 2,
+    "f9e3ce60-22c8-11e8-b098-eb0ed33dabd4": {
       "title": "How to Train Your Troll",
       "author": "Phil Schanely",
       "source": "Unpublished",
       "date": "yesterday"
     }
-  ]
+  }
 }

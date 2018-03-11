@@ -11,7 +11,7 @@ class ArticleRow extends Component {
     date: '',
     author: '',
     url: '',
-    id: 0
+    id: null
   }
 
   constructor() {
@@ -20,49 +20,97 @@ class ArticleRow extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      include: true
-    });
-    this.setupArticleFromApi();
+    // An article with an id would be coming from Firebase which we must treat
+    // differently from one coming straight from the NewsAPI
+    if (this.props.article.id) {
+      this.setupArticleFromFirebase();
+    } else {
+      this.setupArticleFromApi();
+    }
   }
 
   onIncludeClick(e) {
-    // ArticleService.saveArticle(
-    //   this.state.title,
-    //   this.state.author,
-    //   this.state.date,
-    //   this.state.source,
-    //   this.state.url
-    // );
-    let included = !this.state.include;
+    let include = !this.state.include;
 
-    this.props.onIncludeClick({
-      article: this.state.article,
-      include: included
-    });
+    console.log('clicked ' + this.state.title, this.state.id);
 
+    // If its not included add it to Firebase
+    if (include) {
+      let id = ArticleService.saveArticle(
+        this.state.title,
+        this.state.author,
+        this.state.date,
+        this.state.source,
+        this.state.url
+      );
+      // And ensure its new id is populated to state
+      this.setState({
+        id
+      });
+
+    // Otherwise, it is included but lets make sure we have an id first
+    } else if (this.state.id) {
+      let id = this.state.id;
+      this.setState({
+        id: null
+      });
+      // Then if a true deletion is needed (as in we're looking at just a list
+      // from firebase) we pass this up the chain so that grandparent who's
+      // managing state for the list of articles can actually do the deleting.
+      if (this.props.deleteOnRemove) {
+        this.props.onDelete(id);
+      } else {
+        ArticleService.deleteArticle(id);
+      }
+    }
+
+    // Regardless, we set state accordingly
     this.setState({
-      include: included
+      include
     });
   }
 
   setupArticleFromApi() {
-    let article = this.props.article;
+    // Add the properties from the News API to state
     this.setState({
-      title: article.title,
-      author: article.author,
-      date: article.publishedAt,
-      source: article.source.name,
-      url: article.url
+      title: this.props.article.title,
+      author: this.props.article.author,
+      date: this.props.article.publishedAt,
+      source: this.props.article.source.name,
+      url: this.props.article.url
+    });
+
+    // Look for a match in the database and if one is found, add id and included
+    ArticleService.getArticleByUrl(this.props.article.url).then(article => {
+      if (article) {
+        this.setState({
+          include: true,
+          id: article.id
+        });
+      }
+    });
+
+  }
+
+  setupArticleFromFirebase() {
+    // Add all properties to state
+    this.setState({
+      id: this.props.article.id,
+      title: this.props.article.title,
+      author: this.props.article.author,
+      date: this.props.article.date,
+      source: this.props.article.source,
+      url: this.props.article.url,
+      include: true
     });
   }
 
   render() {
     let date = new Date(this.state.date).toString('MMM d, yyyy');
-    let include = this.state.include ? '+' : '–';
+    let include = this.state.include ? '–' : '+';
 
     return (
-      <tr>
+      <tr id={`article-${this.state.id}`}>
         <td className="article__include" onClick={this.onIncludeClick}>{include}</td>
         <td className="article__title">
           <a href={this.state.url} className="article__title" target="_blank">

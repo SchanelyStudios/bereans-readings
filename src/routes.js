@@ -6,7 +6,7 @@ import ArticlesPage from './components/ArticlesPage';
 
 export default (
   <App>
-    <Route path="/" component={HomePage} />
-    <Route path="/articles" component={ArticlesPage} />
+    <Route path="/" exact={true} component={HomePage} />
+    <Route path="/recommended" component={ArticlesPage} />
   </App>
 );
