@@ -3,7 +3,7 @@ import * as uuid from 'uuid/v1';
 
 class ArticleService {
 
-  static getUuid() {
+  static getId() {
     return uuid();
   }
 
@@ -83,7 +83,7 @@ class ArticleService {
   }
 
   static saveArticle(title, author, date, source, url) {
-    const id = this.getUuid();
+    const id = this.getId();
     let article = {
       title,
       author,

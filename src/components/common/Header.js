@@ -13,6 +13,7 @@ const Header = () => {
             <li><Link to={'/'}>Latest Headlines</Link></li>
             <li><Link to={'/recommended'}>Recommended Readings</Link></li>
           </ul>
+          <Link className="Add-article" to={'/add'}>+ Article</Link>
         </nav>
       </header>
     );
