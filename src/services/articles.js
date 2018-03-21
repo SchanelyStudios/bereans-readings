@@ -14,10 +14,13 @@ class ArticleService {
   }
 
   static getArticle(id) {
+    let root = this;
     return firebase.database()
       .ref('articles/' + id)
       .once('value')
-      .then(this.returnArticle);
+      .then(snap => {
+        return root.returnArticle(snap, id);
+      });
   }
 
   static getArticles() {
@@ -48,42 +51,51 @@ class ArticleService {
       .orderByChild('url')
       .equalTo(url)
       .once('value')
-      .then(this.returnArticle);
+      .then(ArticleService.returnArticle);
   }
 
   static getStructuredArticle(title, author, date, source, url, id) {
     return {
-      id,
-      title,
-      author,
-      date,
-      source,
-      url
+      id: id ? id : 0,
+      title: title ? title : '',
+      author: author ? author : '',
+      date: date ? date : '',
+      source: source ? source : '',
+      url: url ? url : ''
     };
   }
 
-  static returnArticle(snap) {
+  static returnArticle(snap, id) {
     let value = snap.val();
-    if (value) {
-      let id = null;
+    if (value && value.title) {
+      return ArticleService.getStructuredArticle(
+        value.title,
+        value.author,
+        value.date,
+        value.source,
+        value.url,
+        id
+      );
+    } else if (value) {
+      id = null;
       for (let key in value) {
         id = key;
         break;
       }
-      return {
-        id,
-        title: value.title,
-        author: value.author,
-        date: value.date,
-        source: value.source,
-        url: value.url
-      };
+      return ArticleService.getStructuredArticle(
+        value.title,
+        value.author,
+        value.date,
+        value.source,
+        value.url,
+        id
+      );
     }
     return null;
   }
 
   static saveArticle(title, author, date, source, url) {
-    const id = this.getId();
+    const id = ArticleService.getId();
     let article = {
       title,
       author,
@@ -95,8 +107,14 @@ class ArticleService {
     return id;
   }
 
-  static updateArticle(id, data) {
-    // firebase.database().ref('articles/' + id).update(data);
+  static updateArticle(id, title, author, date, source, url) {
+    firebase.database().ref('articles/' + id).update({
+      title,
+      author,
+      date,
+      source,
+      url
+    });
   }
 
 };

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ArticleService from '../services/articles';
 import ArticleTable from './article/ArticleTable';
-import './HomePage.css';
 
 class ArticlesPage extends Component {
 

@@ -37,8 +37,8 @@ class ArticleTable extends Component {
   render() {
     let articleRows = this.showRows();
     return (
-      <table className="table table-striped table-hover">
-        <thead>
+      <table className="table table-hover">
+        <thead className="thead-dark">
           <tr>
             <th
               className="article__include"
@@ -49,11 +49,8 @@ class ArticleTable extends Component {
             <th className="article__title">
               Title
             </th>
-            <th className="article__author">
-              Author
-            </th>
-            <th className="article__source">
-              Source
+            <th className="article__author-source">
+              Author and Source
             </th>
             <th className="article__date">
               Date

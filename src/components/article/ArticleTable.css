@@ -1,15 +1,12 @@
 .article__include {
-  width: 5%;
+  width: 10%;
 }
 .article__title {
   width: 50%;
 }
-.article__author {
-  width: 15%;
-}
-.article__source {
-  width: 20%;
+.article__author-source {
+  width: 25%;
 }
 .article__date {
-  width: 10%;
+  width: 15%;
 }

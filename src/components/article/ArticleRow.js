@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import ArticleService from '../../services/articles.js';
 import 'datejs';
 
@@ -31,8 +32,6 @@ class ArticleRow extends Component {
 
   onIncludeClick(e) {
     let include = !this.state.include;
-
-    console.log('clicked ' + this.state.title, this.state.id);
 
     // If its not included add it to Firebase
     if (include) {
@@ -107,18 +106,28 @@ class ArticleRow extends Component {
 
   render() {
     let date = new Date(this.state.date).toString('MMM d, yyyy');
-    let include = this.state.include ? '–' : '+';
+    let include = this.state.include ? (
+      <div>
+        <button className="btn btn-danger btn-sm" onClick={this.onIncludeClick}>&minus;</button>
+        <Link  className="btn btn-warning btn-sm" to={'article/' + this.state.id}>Edit</Link>
+      </div>
+    ) : (
+      <button className="btn btn-success btn-sm" onClick={this.onIncludeClick}>+</button>
+    );
 
     return (
       <tr id={`article-${this.state.id}`}>
-        <td className="article__include" onClick={this.onIncludeClick}>{include}</td>
+        <td className="article__include">{include}</td>
         <td className="article__title">
           <a href={this.state.url} className="article__title" target="_blank">
             <i>{this.state.title}</i>
           </a>
         </td>
-        <td className="article__author">{this.state.author}</td>
-        <td className="article__source">{this.state.source}</td>
+        <td className="article__author-source">
+          {this.state.author}
+          <br />
+          <i>{this.state.source}</i>
+        </td>
         <td className="article__date">{date}</td>
       </tr>
     );

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import firebase from '../services/firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import Header from './common/Header';
-import './App.css';
+// import './App.css';
 
 class App extends Component {
 
@@ -35,7 +35,7 @@ class App extends Component {
   render() {
     if (!this.state.signedIn) {
       return (
-        <div className="App App--no-auth">
+        <div className="container-fluid">
           <Header />
           <p>Please sign-in:</p>
           <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
@@ -43,7 +43,7 @@ class App extends Component {
       );
     }
     return (
-      <div className="App container">
+      <div className="container-fluid">
         <Header />
         {this.props.children}
       </div>
