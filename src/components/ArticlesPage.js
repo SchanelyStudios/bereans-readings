@@ -14,12 +14,13 @@ class ArticlesPage extends Component {
   }
 
   componentDidMount() {
-    // Here we get the articles from Firebase since these are the current set of
-    // recommended readings
-    ArticleService.getArticles().then(articles => {
-      this.setState({
-        articles
-      });
+    this.getArticles();
+  }
+
+  async getArticles() {
+    let articles = await ArticleService.getArticles();
+    this.setState({
+      articles
     });
   }
 

@@ -80,14 +80,14 @@ class ArticleRow extends Component {
     });
 
     // Look for a match in the database and if one is found, add id and included
-    ArticleService.getArticleByUrl(this.props.article.url).then(article => {
-      if (article) {
-        this.setState({
-          include: true,
-          id: article.id
-        });
-      }
-    });
+    // ArticleService.getArticleByUrl(this.props.article.url).then(article => {
+    //   if (article) {
+    //     this.setState({
+    //       include: true,
+    //       id: article.id
+    //     });
+    //   }
+    // });
 
   }
 
