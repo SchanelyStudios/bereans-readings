@@ -28,6 +28,7 @@ class App extends Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
+      console.log( !!user);
       this.setState({ signedIn: !!user });
     });
   }

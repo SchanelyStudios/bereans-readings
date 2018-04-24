@@ -38,7 +38,7 @@ class ArticleTable extends Component {
     let articleRows = this.showRows();
     return (
       <table className="table table-hover">
-        <thead className="thead-dark">
+        <thead>
           <tr>
             <th
               className="article__include"

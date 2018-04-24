@@ -1,1 +1,35 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.css';
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  padding: 10px 15px;
+}
+
+.toolbar label {
+  font-weight: bold;
+  padding-top: 5px;
+  width: auto;
+  padding-right: 10px;
+}
+
+.toolbar__search {
+  width: 30%;
+  display: flex;
+}
+.toolbar__date {
+  width: 30%;
+  display: flex;
+}
+.toolbar__date > div {
+  /* width: 120px; */
+  flex: 1;
+}
+.toolbar__sources {
+  width: 30%;
+  display: flex;
+}
+.toolbar__sources > div {
+  flex: 1;
+}

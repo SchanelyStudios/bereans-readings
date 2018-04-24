@@ -7,7 +7,6 @@ const defaultSource = 'bbc-news';
 
 class NewsService {
 
-
   static getTopNews(query, sources) {
     return newsApi.v2.topHeadlines({
       language: 'en',
@@ -34,10 +33,11 @@ class NewsService {
   }
 
   static getNews(options) {
-    let pageSize = 100;
+    let pageSize = 50;
     let source = options && options.source ? options.source : defaultSource;
     let search = options && options.search ? options.search : null;
-    let date = options && options.date ? options.date: Date.today().toString('yyyy-MM-dd')
+    let date = options && options.date ? options.date: Date.today().toString('yyyy-MM-dd');
+    console.log('new queries', source, search, date);
     return newsApi.v2.everything({
       q: search,
       sources: source,

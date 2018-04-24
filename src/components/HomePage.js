@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 import NewsService from '../services/news';
 import ArticleTable from './article/ArticleTable';
 
-// import Typeahead from 'react-bootstrap-typeahead';
-// import DatePicker from 'react-bootstrap-date-picker';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-import 'react-bootstrap-typeahead/css/Typeahead.css';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
 class HomePage extends Component {
 
@@ -18,10 +19,10 @@ class HomePage extends Component {
       articles: [],
       articlesFound: false,
       sources: [],
-      date: null,
-      formattedDate: '',
+      sourcesLoading: true,
       source: null,
-      search: ''
+      search: '',
+      date: moment()
     };
 
     this.changeDate = this.changeDate.bind(this);
@@ -29,25 +30,21 @@ class HomePage extends Component {
     this.changeSource = this.changeSource.bind(this);
   }
 
-
   componentDidMount() {
     this.getArticles();
     this.getSources();
   }
 
-  // componentDidUpdate() {
-  //   // Access ISO String and formatted values from the DOM.
-  //   var hiddenInputElement = document.getElementById("example-datepicker");
-  //   console.log(hiddenInputElement.value); // ISO String, ex: "2016-11-19T12:00:00.000Z"
-  //   console.log(hiddenInputElement.getAttribute('data-formattedvalue')) // Formatted String, ex: "11/19/2016"
-  // }
-
   async getArticles() {
+    this.setState({
+      loading: true,
+      articles: []
+    });
     let options = {
       source: this.state.source,
       search: this.state.search,
-      date: this.state.date
-    }
+      date: this.state.date.format('YYYY-MM-DD')
+    };
     let articles = await NewsService.getNews(options);
     this.setState({
       articles,
@@ -58,23 +55,32 @@ class HomePage extends Component {
 
   async getSources() {
     let sources = await NewsService.getSources();
-    console.log(sources);
+    let searchableSources = []
+    for (let source of sources) {
+      searchableSources.push({
+        id: source.id,
+        label: source.name
+      });
+    }
     this.setState({
-      sources
-    })
+      sources: searchableSources,
+      source: searchableSources[0].id,
+      sourcesLoading: false
+    });
   }
 
-  changeDate(date, formattedValue) {
-    this.setState({
-      date, // ISO String, ex: "2016-11-19T12:00:00.000Z"
-      formattedDate: formattedValue // Formatted String, ex: "11/19/2016"
-    });
+  changeDate(date) {
+    date = date ? date : moment();
+    this.setState({ date }, () => this.getArticles() );
   }
 
   changeSource(source) {
-    this.setState({ source }, () => {
-      this.getArticles();
-    });
+    console.log('changed source...');
+    let sourceId = null;
+    if (source && source.length >= 1) {
+      sourceId = source[0].id;
+    }
+    this.setState({ source: sourceId }, () => this.getArticles() );
   }
 
   changeSearch(e) {
@@ -86,15 +92,44 @@ class HomePage extends Component {
   }
 
   showToolbar() {
-    return (
-      <div className="toolbar">
-        <input type="text" value={this.state.search} onChange={this.changeSearch} />
-        {/*<DatePicker id="example-datepicker" value={this.state.date} onChange={this.changeDate} />*/}
-        {/*<Typeahead
+    let typeahead = '';
+    if (this.state.sourcesLoading) {
+      typeahead = (
+        <p className="sources">Sources loading...</p>
+      );
+    } else if (this.state.sources.length > 0) {
+      typeahead = (
+        <Typeahead
           onChange={this.changeSource}
           options={this.state.sources}
-          selected={this.state.source}
-        />*/}
+          placeholder="Choose a source..."
+        />
+      );
+    }
+
+    return (
+      <div className="toolbar">
+        <div className="toolbar__search">
+          <input
+            className="form-control"
+            type="text"
+            value={this.state.search}
+            onChange={this.changeSearch}
+            placeholder="Search for..."
+          />
+        </div>
+        <div className="toolbar__date">
+          <label>Publish date:</label>
+          <DatePicker
+            className="form-control"
+            selected={this.state.date}
+            onChange={this.changeDate}
+          />
+        </div>
+        <div className="toolbar__sources">
+          <label>Source</label>
+          {typeahead}
+        </div>
       </div>
     );
   }
