@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+
 import firebase from '../services/firebase';
+import AuthService from '../services/auth';
+
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import Header from './common/Header';
 // import './App.css';
@@ -8,7 +11,8 @@ class App extends Component {
 
   // The component's Local state.
   state = {
-    signedIn: false // Local signed-in state.
+    signedIn: false, // Local signed-in state.
+    authenticated: false // Verified in local users db state.
   };
 
   // Configure FirebaseUI.
@@ -22,15 +26,27 @@ class App extends Component {
     ],
     callbacks: {
       // Avoid redirects after sign-in.
-      signInSuccess: () => false
+      signInSuccess: () => {
+        return false;
+      }
     }
   };
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged((user) => {
-      console.log( !!user);
+      this.checkAuth(user);
       this.setState({ signedIn: !!user });
     });
+  }
+
+  async checkAuth(user) {
+    if (this.state.authenticated) {
+      return true;
+    }
+    let auth = await AuthService.checkAuth(user);
+    this.setState({
+      authenticated: auth
+    })
   }
 
   render() {
@@ -42,6 +58,13 @@ class App extends Component {
           <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
         </div>
       );
+    } else if (!this.state.authenticated) {
+      return (
+        <div className="container-fluid">
+          <Header />
+          <p>Your account must be enabled before you can use this application. Contact the site adminsitrator for assistance.</p>
+        </div>
+      )
     }
     return (
       <div className="container-fluid">
