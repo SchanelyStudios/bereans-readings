@@ -5,10 +5,13 @@ export default class AuthService {
   static isAuthenticated() {
     let userId = window.localStorage.getItem('BRR_USER_UID');
     let authed = window.localStorage.getItem('BRR_USER_AUTH');
-    console.log('auth info', userId, authed);
-    if (userId !== 'null' && authed) {
+    let access = window.localStorage.getItem('BRR_USER_ACCESS_LEVEL');
+    console.log('auth info', userId, authed, access);
+    if (userId !== 'null' && authed && access >= 0) {
+      console.log('access granted');
       return true;
     }
+    console.log('access denied');
     return false;
   }
 
@@ -16,12 +19,14 @@ export default class AuthService {
     console.log('adding authed user', user);
     window.localStorage.getItem('BRR_USER_UID', user.uid);
     window.localStorage.getItem('BRR_USER_AUTH', true);
+    window.localStorage.getItem('BRR_USER_ACCESS_LEVEL', 0);
   }
 
   static addUnauthed(user) {
     console.log('add unauthed/unverified user', user);
     window.localStorage.getItem('BRR_USER_UID', user.uid);
     window.localStorage.getItem('BRR_USER_AUTH', false);
+    window.localStorage.getItem('BRR_USER_ACCESS_LEVEL', 0);
   }
 
   static checkAuth(user) {

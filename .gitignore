@@ -8,7 +8,7 @@
 
 # production
 /build
-*.prod.js
+*.prod
 
 # misc
 .DS_Store
