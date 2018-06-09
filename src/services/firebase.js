@@ -9,8 +9,6 @@ const config = {
   messagingSenderId: process.env.REACT_APP_GFB_MSG_SENDER_ID
 };
 
-console.log('configs', config);
-
 firebase.initializeApp(config);
 
 export default firebase;

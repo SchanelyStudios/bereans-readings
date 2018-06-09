@@ -1,8 +1,6 @@
 import NewsAPI from '../vendor/newsapi/index';
 import 'datejs';
 
-// import AuthService from './auth';
-
 const key = '02648d661f7f44dfba038f182e973f62';
 const newsApi = new NewsAPI(key);
 const defaultSource = 'bbc-news';
@@ -10,12 +8,6 @@ const defaultSource = 'bbc-news';
 class NewsService {
 
   static getTopNews(query, sources) {
-    // let auth = AuthService.checkAuth();
-    // if (!auth) {
-    //   return [{
-    //     'error': 'unauthed'
-    //   }];
-    // }
     return newsApi.v2.topHeadlines({
       language: 'en',
       country: 'us',
