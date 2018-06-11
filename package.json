@@ -5,6 +5,7 @@
   "dependencies": {
     "ajv": "^6.4.0",
     "bootstrap": "^4.0.0",
+    "bs4-modal-react": "^0.1.0",
     "datejs": "^1.0.0-rc3",
     "firebase": "^4.10.1",
     "jquery": "^3.3.1",
@@ -17,7 +18,7 @@
     "react-firebaseui": "^1.1.8",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.1",
+    "react-scripts": "^1.1.4",
     "uuid": "^3.2.1"
   },
   "scripts": {
